@@ -2,7 +2,7 @@
 Unit test for ASTMarkupWriter
 "
 Class {
-	#name : #ASTMarkupWriterTest,
+	#name : #MarkupWriterTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'writer'
@@ -11,26 +11,26 @@ Class {
 }
 
 { #category : #defaults }
-ASTMarkupWriterTest >> defaultTestClass [
+MarkupWriterTest >> defaultTestClass [
 
-	^ASTMarkupWriter 
+	^MarkupWriter 
 ]
 
 { #category : #running }
-ASTMarkupWriterTest >> setUp [
+MarkupWriterTest >> setUp [
 	super setUp.
 	writer := self defaultTestClass new.
 	writer stopPrettyPrinting
 ]
 
 { #category : #running }
-ASTMarkupWriterTest >> tearDown [
+MarkupWriterTest >> tearDown [
 	writer := nil.
 	super tearDown
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testBeginTag [
+MarkupWriterTest >> testBeginTag [
 
 	writer beginTag: 'tag'.
 	self 
@@ -40,14 +40,14 @@ ASTMarkupWriterTest >> testBeginTag [
 ]
 
 { #category : #'tests - basic' }
-ASTMarkupWriterTest >> testCData [
+MarkupWriterTest >> testCData [
 
 	writer cData: 'hello'.
 	self assert: writer contents equals: '<![CDATA[hello]]>'
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testCloseTag [
+MarkupWriterTest >> testCloseTag [
 
 	writer beginTag: 'tag'.
 	writer closeTag.
@@ -58,7 +58,7 @@ ASTMarkupWriterTest >> testCloseTag [
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testCloseTagWithUnfinishedOpen [
+MarkupWriterTest >> testCloseTagWithUnfinishedOpen [
 
 	writer beginTag: 'hello'.
 	self should: [ writer closeTag ]
@@ -67,7 +67,7 @@ ASTMarkupWriterTest >> testCloseTagWithUnfinishedOpen [
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testCloseTagWithoutOpen [
+MarkupWriterTest >> testCloseTagWithoutOpen [
 
 	self should: [ writer closeTag ]
 		  raise: TagClosingNotExpected  
@@ -75,14 +75,14 @@ ASTMarkupWriterTest >> testCloseTagWithoutOpen [
 ]
 
 { #category : #'tests - basic' }
-ASTMarkupWriterTest >> testComment [
+MarkupWriterTest >> testComment [
 
 	writer comment: 'hello'.
 	self assert: writer contents equals: '<!-- hello -->'
 ]
 
 { #category : #tests }
-ASTMarkupWriterTest >> testInstanceCreation [
+MarkupWriterTest >> testInstanceCreation [
 	|instance|
 	instance := self defaultTestClass new.
 	self 
@@ -91,7 +91,7 @@ ASTMarkupWriterTest >> testInstanceCreation [
 ]
 
 { #category : #'tests - factory' }
-ASTMarkupWriterTest >> testInstanceCreationHTML5 [
+MarkupWriterTest >> testInstanceCreationHTML5 [
 	|instance|
 	instance := self defaultTestClass html5.
 	self 
@@ -104,7 +104,7 @@ ASTMarkupWriterTest >> testInstanceCreationHTML5 [
 ]
 
 { #category : #'tests - factory' }
-ASTMarkupWriterTest >> testInstanceCreationXML [
+MarkupWriterTest >> testInstanceCreationXML [
 	|instance|
 	instance := self defaultTestClass xml.
 	self 
@@ -117,7 +117,7 @@ ASTMarkupWriterTest >> testInstanceCreationXML [
 ]
 
 { #category : #'tests - factory' }
-ASTMarkupWriterTest >> testInstanceCreationXSL [
+MarkupWriterTest >> testInstanceCreationXSL [
 	|instance|
 	instance := self defaultTestClass xsl.
 	self 
@@ -130,7 +130,7 @@ ASTMarkupWriterTest >> testInstanceCreationXSL [
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testOpenTag [
+MarkupWriterTest >> testOpenTag [
 
 	writer openTag: 'tag'.
 	self 
@@ -140,14 +140,14 @@ ASTMarkupWriterTest >> testOpenTag [
 ]
 
 { #category : #'tests - basic' }
-ASTMarkupWriterTest >> testRaw [
+MarkupWriterTest >> testRaw [
 
 	writer raw: 'HelloWorld'.
 	self assert: writer contents equals: 'HelloWorld'
 ]
 
 { #category : #'tests - tags' }
-ASTMarkupWriterTest >> testSelfClosingTag [
+MarkupWriterTest >> testSelfClosingTag [
 
 	writer selfClosingTag: 'tag'.
 	self 

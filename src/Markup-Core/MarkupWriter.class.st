@@ -2,7 +2,7 @@
 A markup writer
 "
 Class {
-	#name : #ASTMarkupWriter,
+	#name : #MarkupWriter,
 	#superclass : #Object,
 	#instVars : [
 		'stream',
@@ -15,20 +15,20 @@ Class {
 }
 
 { #category : #factory }
-ASTMarkupWriter class >> html5 [
+MarkupWriter class >> html5 [
 	^(self new)
 		writeHTML5Header;
 		yourself
 ]
 
 { #category : #'instance creation' }
-ASTMarkupWriter class >> new [
+MarkupWriter class >> new [
 	^self on: String new writeStream
 
 ]
 
 { #category : #'instance creation' }
-ASTMarkupWriter class >> on: aStream [
+MarkupWriter class >> on: aStream [
 	^(self basicNew)
 		initialize;
 		initWithStream: aStream;
@@ -36,21 +36,21 @@ ASTMarkupWriter class >> on: aStream [
 ]
 
 { #category : #factory }
-ASTMarkupWriter class >> xml [
+MarkupWriter class >> xml [
 	^(self new)
 		writeXMLHeader;
 		yourself
 ]
 
 { #category : #factory }
-ASTMarkupWriter class >> xsl [
+MarkupWriter class >> xsl [
 	^(self new)
 		writeXSLHeader;
 		yourself
 ]
 
 { #category : #'writing - tag handling' }
-ASTMarkupWriter >> beginTag: aTagName [
+MarkupWriter >> beginTag: aTagName [
 	"Begin a tag - without closing and allowing to add attributes."
 	
 	self indent.
@@ -61,7 +61,7 @@ ASTMarkupWriter >> beginTag: aTagName [
 ]
 
 { #category : #'writing - basic operations' }
-ASTMarkupWriter >> cData: aStringOrBlock [
+MarkupWriter >> cData: aStringOrBlock [
 	self raw: '<![CDATA['.
  	aStringOrBlock isBlock 
 		ifTrue: [	 aStringOrBlock value ]
@@ -70,13 +70,13 @@ ASTMarkupWriter >> cData: aStringOrBlock [
 ]
 
 { #category : #'writing - tag handling' }
-ASTMarkupWriter >> closeTag [
+MarkupWriter >> closeTag [
 
 	self closeTag: nil
 ]
 
 { #category : #'writing - tag handling' }
-ASTMarkupWriter >> closeTag: expectedTag [
+MarkupWriter >> closeTag: expectedTag [
 	|top openedTagName |
 	
 	[ top := stack top ]
@@ -101,7 +101,7 @@ ASTMarkupWriter >> closeTag: expectedTag [
 ]
 
 { #category : #'writing - basic operations' }
-ASTMarkupWriter >> comment: aStringOrBlock [
+MarkupWriter >> comment: aStringOrBlock [
 	self 
 		raw: '<!-- ';
 		raw: aStringOrBlock value;
@@ -109,18 +109,18 @@ ASTMarkupWriter >> comment: aStringOrBlock [
 ]
 
 { #category : #accessing }
-ASTMarkupWriter >> contents [
+MarkupWriter >> contents [
 	^stream contents
 ]
 
 { #category : #defaults }
-ASTMarkupWriter >> defaultIdentCharacter [
+MarkupWriter >> defaultIdentCharacter [
 
 	^Character tab
 ]
 
 { #category : #'private - indenting' }
-ASTMarkupWriter >> indent [
+MarkupWriter >> indent [
 	pretty ifFalse: [ ^self ].
 	stack isEmpty ifTrue: [ ^self ].
 	 
@@ -130,22 +130,22 @@ ASTMarkupWriter >> indent [
 ]
 
 { #category : #accessing }
-ASTMarkupWriter >> indentCharacter [ 
+MarkupWriter >> indentCharacter [ 
 	^indentCharacter
 ]
 
 { #category : #accessing }
-ASTMarkupWriter >> indentCharacter: aCharacter [
+MarkupWriter >> indentCharacter: aCharacter [
 	indentCharacter := aCharacter 
 ]
 
 { #category : #'private - initialization' }
-ASTMarkupWriter >> initWithStream: aStream [
+MarkupWriter >> initWithStream: aStream [
 	self stream: aStream
 ]
 
 { #category : #initialization }
-ASTMarkupWriter >> initialize [
+MarkupWriter >> initialize [
 	super initialize.
 	self stack: Stack new.
 	indentCharacter := self defaultIdentCharacter.
@@ -153,13 +153,13 @@ ASTMarkupWriter >> initialize [
 ]
 
 { #category : #'writing - basic operations' }
-ASTMarkupWriter >> newLine [
+MarkupWriter >> newLine [
 
 	pretty ifTrue: [ stream cr ]
 ]
 
 { #category : #'writing - tag handling' }
-ASTMarkupWriter >> openTag: aTagName [
+MarkupWriter >> openTag: aTagName [
 	"Open a tag - without closing and without further possibility to add attributes."
 	
 	self indent.
@@ -171,19 +171,19 @@ ASTMarkupWriter >> openTag: aTagName [
 ]
 
 { #category : #'private - accessing' }
-ASTMarkupWriter >> openTagIsCompletedMarker [
+MarkupWriter >> openTagIsCompletedMarker [
 
 	^'>'
 ]
 
 { #category : #'writing - basic operations' }
-ASTMarkupWriter >> raw: string [
+MarkupWriter >> raw: string [
 
 	stream nextPutAll: string
 ]
 
 { #category : #'writing - tag handling' }
-ASTMarkupWriter >> selfClosingTag: aTagName [
+MarkupWriter >> selfClosingTag: aTagName [
 
 	self beginTag: aTagName.
 	stack pop	.
@@ -192,55 +192,55 @@ ASTMarkupWriter >> selfClosingTag: aTagName [
 ]
 
 { #category : #'private - accessing' }
-ASTMarkupWriter >> stack [
+MarkupWriter >> stack [
 
 	^stack
 ]
 
 { #category : #'private - accessing' }
-ASTMarkupWriter >> stack: anObject [
+MarkupWriter >> stack: anObject [
 
 	stack := anObject
 ]
 
 { #category : #accessing }
-ASTMarkupWriter >> stopPrettyPrinting [
+MarkupWriter >> stopPrettyPrinting [
 	pretty := false
 ]
 
 { #category : #'private - accessing' }
-ASTMarkupWriter >> stream [
+MarkupWriter >> stream [
 
 	^stream
 ]
 
 { #category : #'private - accessing' }
-ASTMarkupWriter >> stream: aStream [
+MarkupWriter >> stream: aStream [
 
 	stream := aStream
 ]
 
 { #category : #accessing }
-ASTMarkupWriter >> usePrettyPrinting [
+MarkupWriter >> usePrettyPrinting [
 	pretty := true
 ]
 
 { #category : #'private - headers' }
-ASTMarkupWriter >> writeHTML5Header [
+MarkupWriter >> writeHTML5Header [
 	self 
 		raw: '<!DOCTYPE html>';
 		newLine
 ]
 
 { #category : #'private - headers' }
-ASTMarkupWriter >> writeXMLHeader [
+MarkupWriter >> writeXMLHeader [
 	self 
 		raw: '<?xml version="1.0" encoding="UTF-8"?>';
 		newLine
 ]
 
 { #category : #'private - headers' }
-ASTMarkupWriter >> writeXSLHeader [
+MarkupWriter >> writeXSLHeader [
 	self 
 		raw: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">';
 		newLine
