@@ -119,6 +119,13 @@ MarkupWriter >> defaultIdentCharacter [
 	^Character tab
 ]
 
+{ #category : #'writing - tag handling' }
+MarkupWriter >> emptyTag: aTagName [
+	self 
+		openTag: aTagName;
+ 		closeTag: aTagName 
+]
+
 { #category : #'private - indenting' }
 MarkupWriter >> indent [
 	pretty ifFalse: [ ^self ].

@@ -49,11 +49,13 @@ MarkupWriterTest >> testCData [
 { #category : #'tests - tags' }
 MarkupWriterTest >> testCloseTag [
 
-	writer beginTag: 'tag'.
+	writer openTag: 'tag'.
+	self assert: writer stack size equals: 1.
+	
 	writer closeTag.
 	self 
-		assert: writer stack size equals: 1;
-		assert: writer contents equals: '<tag'
+		assert: writer stack size equals: 0;
+		assert: writer contents equals: '<tag></tag>'
 	
 ]
 
@@ -79,6 +81,16 @@ MarkupWriterTest >> testComment [
 
 	writer comment: 'hello'.
 	self assert: writer contents equals: '<!-- hello -->'
+]
+
+{ #category : #'tests - tags' }
+MarkupWriterTest >> testEmptyTag [
+
+	writer emptyTag: 'tag'.
+	self 
+		assert: writer stack size equals: 0;
+		assert: writer contents equals: '<tag></tag>'
+	
 ]
 
 { #category : #tests }
