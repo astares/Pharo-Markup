@@ -141,6 +141,22 @@ MarkupWriterTest >> testInstanceCreationXSL [
 
 ]
 
+{ #category : #'tests - nesting' }
+MarkupWriterTest >> testNestedBlock [
+
+	writer tag: 'abc' with: [
+		writer emptyTag: 'foo'.
+	].
+	self assert: writer contents equals: '<abc><foo></foo></abc>'
+]
+
+{ #category : #'tests - nesting' }
+MarkupWriterTest >> testNestedCData [
+
+	writer tag: 'abc' cData: 'hello'.
+	self assert: writer contents = '<abc><![CDATA[hello]]></abc>'
+]
+
 { #category : #'tests - tags' }
 MarkupWriterTest >> testOpenTag [
 

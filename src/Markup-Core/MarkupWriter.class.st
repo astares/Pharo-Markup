@@ -227,6 +227,25 @@ MarkupWriter >> stream: aStream [
 	stream := aStream
 ]
 
+{ #category : #'writing - tag nesting' }
+MarkupWriter >> tag: aTagName cData: cDataString [
+
+	self tag: aTagName with: [ self cData: cDataString ]
+]
+
+{ #category : #'writing - tag nesting' }
+MarkupWriter >> tag: aTagName with: aBlockOrString [ 
+
+	self openTag: aTagName.
+	
+	aBlockOrString isBlock ifTrue: [	
+		self newLine.			 
+		aBlockOrString value.		
+	]
+	ifFalse: [self raw: aBlockOrString ].
+	self closeTag 
+]
+
 { #category : #accessing }
 MarkupWriter >> usePrettyPrinting [
 	pretty := true
