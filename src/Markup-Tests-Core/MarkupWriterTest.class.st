@@ -154,7 +154,14 @@ MarkupWriterTest >> testNestedBlock [
 MarkupWriterTest >> testNestedCData [
 
 	writer tag: 'abc' cData: 'hello'.
-	self assert: writer contents = '<abc><![CDATA[hello]]></abc>'
+	self assert: writer contents equals: '<abc><![CDATA[hello]]></abc>'
+]
+
+{ #category : #'tests - nesting' }
+MarkupWriterTest >> testNestedRaw [
+
+	writer tag: 'abc' raw: 'hello'.
+	self assert: writer contents equals: '<abc>hello</abc>'
 ]
 
 { #category : #'tests - tags' }

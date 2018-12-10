@@ -234,6 +234,12 @@ MarkupWriter >> tag: aTagName cData: cDataString [
 ]
 
 { #category : #'writing - tag nesting' }
+MarkupWriter >> tag: aTagName raw: cDataString [
+
+	self tag: aTagName with: [ self raw: cDataString ]
+]
+
+{ #category : #'writing - tag nesting' }
 MarkupWriter >> tag: aTagName with: aBlockOrString [ 
 
 	self openTag: aTagName.
