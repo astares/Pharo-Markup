@@ -130,7 +130,7 @@ MarkupWriter >> emptyTag: aTagName [
 MarkupWriter >> indent [
 	pretty ifFalse: [ ^self ].
 	stack isEmpty ifTrue: [ ^self ].
-	 
+	self newLine. 
 	stack size timesRepeat: [
 		stream nextPut: indentCharacter 
 	]
@@ -194,8 +194,7 @@ MarkupWriter >> selfClosingTag: aTagName [
 
 	self beginTag: aTagName.
 	stack pop	.
-	stream nextPutAll: '/>'.
-	self newLine.
+	stream nextPutAll: '/>'
 ]
 
 { #category : #'private - accessing' }
@@ -260,20 +259,17 @@ MarkupWriter >> usePrettyPrinting [
 { #category : #'private - headers' }
 MarkupWriter >> writeHTML5Header [
 	self 
-		raw: '<!DOCTYPE html>';
-		newLine
+		raw: '<!DOCTYPE html>'
 ]
 
 { #category : #'private - headers' }
 MarkupWriter >> writeXMLHeader [
 	self 
-		raw: '<?xml version="1.0" encoding="UTF-8"?>';
-		newLine
+		raw: '<?xml version="1.0" encoding="UTF-8"?>'
 ]
 
 { #category : #'private - headers' }
 MarkupWriter >> writeXSLHeader [
 	self 
-		raw: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">';
-		newLine
+		raw: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">'
 ]
