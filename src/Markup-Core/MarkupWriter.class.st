@@ -89,8 +89,8 @@ MarkupWriter >> closeTag: expectedTag [
 	
 	expectedTag ifNotNil: [
 		openedTagName = expectedTag ifFalse: [ ClosingWrongTag signal: 'Closing ',expectedTag asString,' but expected', top asString ]].
-
 	stack pop.
+	self indent.
 	stream 
 		nextPutAll: '</';
 		nextPutAll: openedTagName asString;
@@ -130,7 +130,7 @@ MarkupWriter >> emptyTag: aTagName [
 MarkupWriter >> indent [
 	pretty ifFalse: [ ^self ].
 	stack isEmpty ifTrue: [ ^self ].
-	self newLine. 
+	 
 	stack size timesRepeat: [
 		stream nextPut: indentCharacter 
 	]
@@ -194,7 +194,8 @@ MarkupWriter >> selfClosingTag: aTagName [
 
 	self beginTag: aTagName.
 	stack pop	.
-	stream nextPutAll: '/>'
+	stream nextPutAll: '/>'.
+	self newLine.
 ]
 
 { #category : #'private - accessing' }
@@ -256,20 +257,31 @@ MarkupWriter >> usePrettyPrinting [
 	pretty := true
 ]
 
+{ #category : #visiting }
+MarkupWriter >> visitMarkupNode: aMarkupNode [ 
+	self 
+		tag: aMarkupNode name
+	   with: [ aMarkupNode subnodes do: [:each | each visit: self]].	
+
+]
+
 { #category : #'private - headers' }
 MarkupWriter >> writeHTML5Header [
 	self 
-		raw: '<!DOCTYPE html>'
+		raw: '<!DOCTYPE html>';
+		newLine
 ]
 
 { #category : #'private - headers' }
 MarkupWriter >> writeXMLHeader [
 	self 
-		raw: '<?xml version="1.0" encoding="UTF-8"?>'
+		raw: '<?xml version="1.0" encoding="UTF-8"?>';
+		newLine
 ]
 
 { #category : #'private - headers' }
 MarkupWriter >> writeXSLHeader [
 	self 
-		raw: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">'
+		raw: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">';
+		newLine
 ]

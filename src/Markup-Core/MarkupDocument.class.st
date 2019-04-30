@@ -28,3 +28,13 @@ MarkupDocument >> nodes [
 
 	^nodes ifNil: [ nodes := OrderedCollection new ]
 ]
+
+{ #category : #conversion }
+MarkupDocument >> text [
+	| writer |
+	writer := MarkupWriter new.  		
+	self nodes do: [:each | each visit: writer ].
+	^writer contents
+ 
+ 
+]

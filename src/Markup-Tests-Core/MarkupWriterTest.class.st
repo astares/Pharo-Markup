@@ -109,7 +109,8 @@ MarkupWriterTest >> testInstanceCreationHTML5 [
 	self 
 		assert: instance stream notNil;
 		assert: instance contents notEmpty;
-		assert: instance contents equals: '<!DOCTYPE html>'
+		assert: instance contents equals: '<!DOCTYPE html>
+'
 		
 
 ]
@@ -121,7 +122,8 @@ MarkupWriterTest >> testInstanceCreationXML [
 	self 
 		assert: instance stream notNil;
 		assert: instance contents notEmpty;
-		assert: instance contents equals: '<?xml version="1.0" encoding="UTF-8"?>' 
+		assert: instance contents equals: '<?xml version="1.0" encoding="UTF-8"?>
+' 
 		
 
 ]
@@ -133,7 +135,8 @@ MarkupWriterTest >> testInstanceCreationXSL [
 	self 
 		assert: instance stream notNil;
 		assert: instance contents notEmpty;
-		assert: instance contents equals: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' 
+		assert: instance contents equals: '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+' 
 		
 
 ]
